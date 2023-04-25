@@ -29,8 +29,7 @@ public class TimeCloneSkill : MonoBehaviour
             timeClone.transform.position = magicScript.positions[0];
 
             // Set the time clone's rotation to the player's rotation at the designated time in the past
-            //timeClone.transform.rotation = transform.rotation;
-            timeClone.transform.rotation = magicScript.rotations[0];
+            
 
             // Start a coroutine to destroy the time clone after a designated duration (e.g. 5 seconds)
             StartCoroutine(DestroyTimeClone(timeClone, timeCloneDuration));
