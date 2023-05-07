@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBomb : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerBomb : MonoBehaviour
     public float throwForce = 10f; // The force at which the bomb is thrown
     public float cooldownTime = 2f; // The amount of time before the player can throw another bomb
     private bool canThrow = true; // Whether the player can throw a bomb or not
+    public Image bombImage;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,10 +25,12 @@ public class PlayerBomb : MonoBehaviour
             if (currentBombPrefab == bombPrefab)
             {
                 currentBombPrefab = ageBombPrfab;
+                bombImage.sprite = Resources.Load<Sprite>("Bomb2");
             }
             else
             {
                 currentBombPrefab = bombPrefab;
+                bombImage.sprite = Resources.Load<Sprite>("Bomb1");
             }
         }
         if (Input.GetMouseButtonDown(1) && canThrow)

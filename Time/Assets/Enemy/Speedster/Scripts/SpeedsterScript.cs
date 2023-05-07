@@ -41,7 +41,7 @@ public class SpeedsterScript : MonoBehaviour
             PlayerHealth health = col.GetComponent<PlayerHealth>();
             if (health != null)
             {
-                health.TakeDamage(10);
+                health.TakeDamage(4);
             }
         }
         if (!isDashing)
@@ -52,11 +52,11 @@ public class SpeedsterScript : MonoBehaviour
                 // follow the player
                 moveDirection = (target.position - transform.position).normalized;
             }
-            else
-            {
-                // move randomly
-                moveDirection = new Vector2(UnityEngine.Random.Range(-1f, 3f), UnityEngine.Random.Range(-1f, 3f)).normalized;
-            }
+            //else
+            //{
+            //    // move randomly
+            //    moveDirection = new Vector2(UnityEngine.Random.Range(-1f, 3f), UnityEngine.Random.Range(-1f, 3f)).normalized;
+            //}
 
             // check if dash is ready
             if (dashCooldownLeft <= 0f)
@@ -69,7 +69,7 @@ public class SpeedsterScript : MonoBehaviour
                     exclamationPoint.transform.SetParent(transform);
                     // remove the exclamation point
                     StartCoroutine(RemoveExclamationPoint());
-                    animator.SetTrigger("Dash");
+                    animator.SetBool("Dash2", true);
                     StartDash();
                 }
             }
@@ -117,6 +117,7 @@ public class SpeedsterScript : MonoBehaviour
         }
         else
         {
+            animator.SetBool("Dash2", false);
             // dash
             rb.velocity = moveDirection * dashSpeed * speed;
         }

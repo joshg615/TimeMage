@@ -20,7 +20,17 @@ public class MagicScript : MonoBehaviour
 
     public GameObject projectilePrefab;
     public float projectileSpeed;
+
     public GameObject timeRiftPrefab;
+    public float timeRiftDuration = 5f;
+    public float timeRiftCooldown = 10f;
+   
+    private GameObject timeRiftPreview;
+    private bool previewingRift = false;
+
+    private bool canCreateTimeRift = true;
+    private bool showLine = false;
+    private LineRenderer lineRenderer;
 
     public GameObject timeDilation;
     
@@ -80,8 +90,8 @@ public class MagicScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             float currentTime = Time.time;
-            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            isMoving = false;
+            //GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            //isMoving = false;
             UseRewindSkill();
             
 
@@ -92,18 +102,100 @@ public class MagicScript : MonoBehaviour
         //    UseSlowDownTimeSkill();
         //}
 
-        if (Input.GetKeyDown(KeyCode.E))
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    mousePos.z = 0f;
+        //    Instantiate(timeRiftPrefab, mousePos, Quaternion.identity);
+        //}
+
+        //if (Input.GetKey(KeyCode.E) && canCreateTimeRift)
+        //{
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
+        //    {
+        //        Vector3 point = hit.point;
+        //        point.y = transform.position.y;
+        //        point.z = 0f;
+        //        lineRenderer.enabled = true;
+        //        lineRenderer.SetPosition(0, transform.position);
+        //        lineRenderer.SetPosition(1, point);
+        //        showLine = true;
+        //    }
+        //}
+
+        //if (Input.GetKeyUp(KeyCode.E) && showLine)
+        //{
+        //    Instantiate(timeRiftPrefab, lineRenderer.GetPosition(1), Quaternion.identity);
+        //    canCreateTimeRift = false;
+        //    Invoke("ResetCreateRift", timeRiftCooldown);
+        //    lineRenderer.enabled = false;
+        //    showLine = false;
+        //}
+
+        if (Input.GetKey(KeyCode.E))
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0f;
-            Instantiate(timeRiftPrefab, mousePos, Quaternion.identity);
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            timeDilation.SetActive(true);
-            Invoke("TurnOffDilation", 4f);
+            if (!previewingRift)
+            {
+                previewingRift = true;
+                // Spawn a preview of the time rift at the current mouse position
+                Vector3 mousePosition = Input.mousePosition;
+                mousePosition.z = 10f;
+                Vector3 position = Camera.main.ScreenToWorldPoint(mousePosition);
+
+                timeRiftPreview = Instantiate(timeRiftPrefab, position, Quaternion.identity);
+                timeRiftPreview.GetComponent<Collider2D>().enabled = false;
+                //previewingRift = true;
+            }
+            //else if (previewingRift)
+            //{
+            //    // Place the time rift at the position of the preview and enable its collider
+            //    timeRiftPreview.GetComponent<Collider2D>().enabled = true;
+            //    previewingRift = false;
+            //}
+            else
+            {
+                // Update the position of the time rift preview
+                Vector3 mousePosition = Input.mousePosition;
+                mousePosition.z = 10f;
+                Vector3 position = Camera.main.ScreenToWorldPoint(mousePosition);
+
+                timeRiftPreview.transform.position = position;
+            }
         }
 
+        if(Input.GetKeyUp(KeyCode.E))
+        {
+            // Place the time rift at the position of the preview and enable its collider
+            timeRiftPreview.GetComponent<Collider2D>().enabled = true;
+            previewingRift = false;
+        }
+        //else if (previewingRift)
+        //{
+        //    // Place the time rift at the position of the preview and enable its collider
+        //    timeRiftPreview.GetComponent<Collider2D>().enabled = true;
+        //    previewingRift = false;
+        //}
+
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //timeDilation.SetActive(true);
+            //Invoke("TurnOffDilation", 4f);
+            TimeDialtionSkill();
+        }
+
+    }
+
+    public void TimeDialtionSkill()
+    {
+        timeDilation.SetActive(true);
+        Invoke("TurnOffDilation", 4f);
+
+    }
+    void ResetCreateRift()
+    {
+        canCreateTimeRift = true;
     }
 
     public void TurnOffDilation()
@@ -139,6 +231,8 @@ public class MagicScript : MonoBehaviour
     }
     public void UseRewindSkill()
     {
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        isMoving = false;
         float currentTime = Time.time;
         //transform.GetComponent<PlayerHealth>().currentHealth = health[0];
         StartCoroutine(Rewind(currentTime, 3f));

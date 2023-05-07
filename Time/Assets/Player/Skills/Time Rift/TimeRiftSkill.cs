@@ -9,10 +9,11 @@ public class TimeRiftSkill : MonoBehaviour
     public float radius = 3f;
     public float strength = 10f;
     public float damagePerSecond = 10f;
+    CircleCollider2D circleCollider;
 
     private void Update()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, circleCollider.radius);
 
         foreach (Collider2D collider in colliders)
         {
@@ -39,6 +40,7 @@ public class TimeRiftSkill : MonoBehaviour
 
     private void Start()
     {
+        circleCollider = GetComponent<CircleCollider2D>();
         Destroy(gameObject, 5f);
     }
 }

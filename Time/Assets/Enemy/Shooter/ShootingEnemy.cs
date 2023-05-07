@@ -65,10 +65,12 @@ public class ShootingEnemy : MonoBehaviour
     private void ActivateTimeDilationShield(float slowdownFactor)
     {
         moveSpeed *= slowdownFactor;
+        projectileSpeed *= slowdownFactor;
     }
     private void StopTimeDilationShield(float speedUpFator)
     {
         moveSpeed /= speedUpFator;
+        projectileSpeed /= speedUpFator;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

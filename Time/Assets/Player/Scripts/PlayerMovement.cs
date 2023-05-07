@@ -24,27 +24,27 @@ public class PlayerMovement : MonoBehaviour
         // calculate movement vector
         Vector3 movement = new Vector3(horizontalInput, verticalInput, 0f).normalized * speed * Time.deltaTime;
         movement = movement.normalized * speed * Time.deltaTime;
-        
-        if (dashCoolDown > 0)
-        {
-            dashCoolDown -= Time.deltaTime;
 
-        }
-        else
-        {
-            isDashing= false;
-        }
+        //if (dashCoolDown > 0)
+        //{
+        //    dashCoolDown -= Time.deltaTime;
+
+        //}
+        //else
+        //{
+        //    isDashing= false;
+        //}
 
         // move the player
         transform.position += movement;
         //rb.MovePosition(rb.transform.position + movement);
 
-        // Dash if spacebar is pressed
-        if (Input.GetKeyDown(KeyCode.Space) && !isDashing)
-        {
-            Dash();
-            trailRenderer.emitting = false;
-        }
+        //// Dash if spacebar is pressed
+        //if (Input.GetKeyDown(KeyCode.Space) && !isDashing)
+        //{
+        //    Dash();
+        //    trailRenderer.emitting = false;
+        //}
     }
 
     private void Dash()

@@ -119,12 +119,12 @@ public class Bomber : MonoBehaviour
         {
             Vector2 direction = transform.position - collision.gameObject.transform.position;
             transform.position = Vector2.MoveTowards(transform.position, direction, speed * Time.deltaTime);
-            if (collision.CompareTag("TimeDilationShield"))
-            {
-                //isSlowed = true;
-                ActivateTimeDilationShield(collision.GetComponent<TimeDilationShield>().slowdownFactor);
-                Debug.Log("I have entered the time dilation");
-            }
+        }
+        if (collision.CompareTag("TimeDilationShield"))
+        {
+            //isSlowed = true;
+            ActivateTimeDilationShield(collision.GetComponent<TimeDilationShield>().slowdownFactor);
+            Debug.Log("I have entered the time dilation");
         }
     }
 
